@@ -41,13 +41,12 @@ def create_folders():
     script_dir = os.path.dirname(__file__)
     models_dir = os.path.split(script_dir)[0]
     backend_dir = os.path.join(os.path.split(models_dir)[0])
-    inference_folder = os.path.join(backend_dir, 'data','inference_trash_images')
-    images_folder = os.path.join(backend_dir, 'data','inference_trash_images')
+    inference_folder = os.path.join(backend_dir, 'data','inference_trash_images', 'inference_results')
+    images_folder = os.path.join(backend_dir, 'data','inference_trash_images', 'images')
     os.makedirs(inference_folder, exist_ok=True)
     os.makedirs(images_folder, exist_ok=True)
 
 def detect_trash_from_image(img_location: str):
-    create_folders()
     class_names = ['Plastic film', 'Cigarette', 'Clear plastic bottle', 'Plastic bottle cap', 'Drink can']
     script_dir = os.path.dirname(__file__)
     best_name = 'best.pt'

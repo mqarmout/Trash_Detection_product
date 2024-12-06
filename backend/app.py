@@ -31,6 +31,7 @@ def trash_image():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            yolo_trash_detection_model.create_folders()
             filename = secure_filename(file.filename)
             provided_image_abs_file_path = os.path.join(app.config['UPLOAD_FOLDER'], "inference_trash_images", "images", filename)
             file.save(provided_image_abs_file_path)
