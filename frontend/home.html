@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trash Detection</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <style>
         /* General Body and Background */
         body {
@@ -23,7 +25,6 @@
             padding: 1rem 0;
         }
 
-        /* Title Styling */
         h1 {
             font-size: 3rem;
             font-weight: bold;
@@ -36,52 +37,51 @@
 
         /* Description Section */
         #description-section {
-    background-color: #ffffe4; /* Lighter shade of #FFFFE4 */
-    padding: 5rem 0;
-}
+            background-color: #ffffe4; /* Lighter shade of #FFFFE4 */
+            padding: 5rem 0;
+        }
 
-#description-section h2 {
-    font-size: 3rem;
-    font-weight: 550;
-    color: #333;
-}
+        #description-section h2 {
+            font-size: 3rem;
+            font-weight: 550;
+            color: #333;
+        }
 
-#description-section p {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    color: #555;
-    max-width: 800px;
-    margin: 0 auto;
-}
+        #description-section p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-#description-section h4 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 1rem;
-}
+        #description-section h4 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
 
-.card {
-    border-radius: 10px;
-    background-color: #e0f2f1;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+        .card {
+            border-radius: 10px;
+            background-color: #e0f2f1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.card-title {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #333;
-}
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #333;
+        }
 
-.card-text {
-    font-size: 1rem;
-    color: #777;
-}
-
+        .card-text {
+            font-size: 1rem;
+            color: #777;
+        }
 
         /* App Section */
         #app-section {
@@ -185,28 +185,30 @@
             background-color: #2e7d32; /* Darker Green on hover */
         }
 
+        /* Footer Section */
         #footer-section {
-    background-color: #333;
-    color: #fff;
-}
+            background-color: #333;
+            color: #fff;
+        }
 
-#footer-section a {
-    text-decoration: none;
-    color: #fff;
-    transition: color 0.3s ease;
-}
+        #footer-section a {
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
 
-#footer-section a:hover {
-    color: #ffcc00; /* Change the hover color for the links */
-}
+        #footer-section a:hover {
+            color: #ffcc00; /* Change the hover color for the links */
+        }
 
-#footer-section p {
-    font-size: 1rem;
-}
+        #footer-section p {
+            font-size: 1rem;
+        }
 
     </style>
 </head>
 <body>
+    
     <!-- Hero Section -->
     <header>
         <div class="container">
@@ -246,8 +248,6 @@
             </div>
         </div>
     </section>
-    
-    
 
     <!-- App Section -->
     <section id="app-section">
@@ -282,7 +282,7 @@
         </div>
     </section>
 
-    <!-- Fotter Section -->
+    <!-- Footer Section -->
     <footer id="footer-section" class="bg-dark text-white py-4">
         <div class="container text-center">
             <p class="mb-2">© 2024 Trash Detection. All Rights Reserved.</p>
@@ -293,54 +293,33 @@
             </p>
         </div>
     </footer>
-    
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // JavaScript for drag-and-drop functionality
+        // JavaScript for file drag and drop behavior
         const uploadBox = document.getElementById('upload-box');
         const fileInput = document.getElementById('file-input');
         const fileSelectBtn = document.getElementById('file-select-btn');
 
-        // Show file picker when the "Browse File" button is clicked
-        fileSelectBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        // Highlight the drop area on dragover
-        uploadBox.addEventListener('dragover', (event) => {
-            event.preventDefault();
+        uploadBox.addEventListener('dragover', function(e) {
+            e.preventDefault();
             uploadBox.classList.add('dragover');
         });
 
-        // Remove highlight on dragleave
-        uploadBox.addEventListener('dragleave', () => {
+        uploadBox.addEventListener('dragleave', function() {
             uploadBox.classList.remove('dragover');
         });
 
-        // Handle file drop
-        uploadBox.addEventListener('drop', (event) => {
-            event.preventDefault();
+        uploadBox.addEventListener('drop', function(e) {
+            e.preventDefault();
             uploadBox.classList.remove('dragover');
-            const files = event.dataTransfer.files;
-
-            // Attach the dropped file to the file input
-            if (files.length > 0) {
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(files[0]); // Add the dropped file
-                fileInput.files = dataTransfer.files; // Update the file input's files
-
-                // Update the UI to show the selected file
-                uploadBox.querySelector('p').textContent = `File Selected: ${files[0].name}`;
-            }
+            fileInput.files = e.dataTransfer.files;
         });
 
-        // Handle input change to reflect file selection
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length > 0) {
-                uploadBox.querySelector('p').textContent = `File Selected: ${fileInput.files[0].name}`;
-            }
+        fileSelectBtn.addEventListener('click', function() {
+            fileInput.click();
         });
     </script>
 </body>
