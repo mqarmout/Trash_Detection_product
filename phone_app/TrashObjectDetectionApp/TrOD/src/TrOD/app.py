@@ -86,7 +86,7 @@ class TrOD(toga.App):
 
     def process_image(self, widget):
         """Send the image to the object detection API."""
-        api_url = "http://127.0.0.1:11000/"  # Replace with the real API URL
+        api_url = "http://127.0.0.1:11000/trash_image"  # Correct API endpoint
         self.status_label.text = "Sending image to API..."
 
         try:
@@ -96,21 +96,27 @@ class TrOD(toga.App):
 
             # Open the captured image file and send it to the API
             with open(self.image_path, "rb") as img_file:
-                response = requests.post(api_url, files={"image": img_file})
-                if response.status_code == 200:
+                response = requests.post(api_url, files={"file": img_file})
+                if response.status_code == 204:
                     self.status_label.text = "Image processed successfully!"
-                    processed_img = PILImage.open(BytesIO(response.content))
+                    processed_img_url = response.url
 
-                    # Save and display the processed image
-                    processed_path = os.path.join(
-                        os.path.dirname(self.image_path), "processed_image.png"
-                    )
-                    processed_img.save(processed_path, format="PNG")
-                    self.image_view.image = toga.Image(processed_path)
+                    # Optionally: Fetch and display the processed image
+                    processed_img = requests.get(processed_img_url, stream=True)
+                    if processed_img.status_code == 200:
+                        processed_img_path = os.path.join(
+                            os.path.dirname(self.image_path), "processed_image.png"
+                        )
+                        with open(processed_img_path, "wb") as f:
+                            f.write(processed_img.content)
+                        self.image_view.image = toga.Image(processed_img_path)
+                    else:
+                        self.status_label.text = f"Error: Unable to fetch processed image"
                 else:
                     self.status_label.text = f"Error: {response.status_code} - {response.text}"
         except Exception as e:
             self.status_label.text = f"Error: {str(e)}"
+
 
 
 def main():
