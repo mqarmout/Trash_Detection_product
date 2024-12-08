@@ -1,0 +1,2 @@
+cd TrOD
+briefcase dev
