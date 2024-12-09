@@ -1,0 +1,2 @@
+docker build -t trash_detection:0.0 .
+docker run --rm --name trash_detection -p 11000:11000 trash_detection:0.0
