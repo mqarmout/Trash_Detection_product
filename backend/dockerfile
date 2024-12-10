@@ -1,13 +1,18 @@
-FROM python:3.10-slim AS base
+FROM python:3.11-slim
 
-ADD . .
+# Install system dependencies
+RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0 && rm -rf /var/lib/apt/lists/*
 
-RUN pip install -r requirements.txt
+# Set working directory
+WORKDIR /app
 
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+# Copy and install only required Python packages
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
 
-EXPOSE 11000
+EXPOSE 5000
 
-ENTRYPOINT ["python"]
+# Copy application files
+COPY . .
 
-CMD ["app.py"]
+CMD ["python", "app.py"]

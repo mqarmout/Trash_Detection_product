@@ -1,2 +1,2 @@
-docker build -t trash_detection:0.0 .
-docker run --rm --name trash_detection -p 11000:11000 trash_detection:0.0
+docker build --pull --rm -f "backend\Dockerfile" -t trash_detection:0.0 "backend"
+docker run --rm --name trash_detection -p 5000:5000 trash_detection:0.0
