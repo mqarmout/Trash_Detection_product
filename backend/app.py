@@ -19,25 +19,23 @@ def trash_detection_demo():
 
 @app.route("/trash_image", methods=["GET", "POST"])
 def trash_image():
+    return_value = Response(status=200)
     if request.method == 'POST':
-        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            return_value = redirect(request.url)
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
+            return_value = redirect(request.url)
         if file and allowed_file(file.filename):
             yolo_trash_detection_model.create_folders()
             filename = secure_filename(file.filename)
             provided_image_abs_file_path = os.path.join(app.config['UPLOAD_FOLDER'], "inference_trash_images", "images", filename)
             file.save(provided_image_abs_file_path)
             predicted_file_name = yolo_trash_detection_model.detect_trash_from_image(provided_image_abs_file_path)
-            return redirect(url_for('download_file', name=predicted_file_name))
-    return Response(status=204)
+            return_value = redirect(url_for('download_file', name=predicted_file_name))
+    return return_value
 
 @app.route('/uploads/<name>')
 def download_file(name):
